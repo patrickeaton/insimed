@@ -1,0 +1,91 @@
+/*
+ * InSimEd design tokens.
+ *
+ * HOW TO RE-THEME THE SITE:
+ *   1. The raw brand palette lives in `:root` under `--brand-*`. These were
+ *      extracted from the live insimeducation.com Wix theme.
+ *   2. Semantic tokens (`--c-*`, `--font-*`) map brand colors to *roles*
+ *      (background, foreground, primary, accent...). Components only ever
+ *      reference the semantic tokens, never raw brand colors.
+ *   3. `@theme inline` below wires the semantic tokens into Tailwind so
+ *      utilities like `bg-primary`, `text-foreground`, `font-display` work.
+ *   4. To create an alternate look, override the `--c-*` tokens in a
+ *      `[data-theme="..."]` block (see the `space` example) and toggle it
+ *      with `<html data-theme="space">`. No component changes required.
+ */
+
+:root {
+  /* ---- Raw brand palette (from insimeducation.com) ---- */
+  --brand-bronze: #917151; /* primary accent — warm tan/bronze */
+  --brand-bronze-dark: #6e5640;
+  --brand-gold: #f2c682; /* highlight gold */
+  --brand-gold-soft: #f8daac;
+  --brand-space: #0a151c; /* deep "space" navy/near-black */
+  --brand-ink: #2d2d2d; /* primary text */
+  --brand-slate: #575757; /* secondary text */
+  --brand-mist: #ababab;
+  --brand-paper: #ffffff;
+  --brand-cloud: #fafafa;
+
+  /* ---- Semantic tokens (light / default theme) ---- */
+  --c-background: var(--brand-paper);
+  --c-surface: var(--brand-cloud);
+  --c-foreground: var(--brand-ink);
+  --c-muted: var(--brand-slate);
+  --c-border: #e6e6e6;
+  --c-primary: var(--brand-bronze);
+  --c-primary-hover: var(--brand-bronze-dark);
+  --c-primary-foreground: #ffffff;
+  --c-accent: var(--brand-gold);
+  --c-contrast: var(--brand-space);
+  --c-contrast-foreground: #f5f5f5;
+
+  /* ---- Typography ---- */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+
+  /* ---- Shape ---- */
+  --radius-base: 0.625rem;
+}
+
+/*
+ * Alternate "space" theme — dark, gold-forward.
+ * Activate with: document.documentElement.dataset.theme = "space"
+ */
+[data-theme="space"] {
+  --c-background: var(--brand-space);
+  --c-surface: #11202b;
+  --c-foreground: #f5f5f5;
+  --c-muted: #aebfca;
+  --c-border: #22323d;
+  --c-primary: var(--brand-gold);
+  --c-primary-hover: var(--brand-gold-soft);
+  --c-primary-foreground: var(--brand-space);
+  --c-accent: var(--brand-bronze);
+  --c-contrast: var(--brand-gold);
+  --c-contrast-foreground: var(--brand-space);
+}
+
+/*
+ * Expose semantic tokens to Tailwind. `inline` means utilities reference the
+ * CSS variable (not its resolved value), so `[data-theme]` overrides above
+ * cascade through every `bg-*` / `text-*` / `font-*` utility automatically.
+ */
+@theme inline {
+  --color-background: var(--c-background);
+  --color-surface: var(--c-surface);
+  --color-foreground: var(--c-foreground);
+  --color-muted: var(--c-muted);
+  --color-border: var(--c-border);
+  --color-primary: var(--c-primary);
+  --color-primary-hover: var(--c-primary-hover);
+  --color-primary-foreground: var(--c-primary-foreground);
+  --color-accent: var(--c-accent);
+  --color-contrast: var(--c-contrast);
+  --color-contrast-foreground: var(--c-contrast-foreground);
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+
+  --radius: var(--radius-base);
+}
